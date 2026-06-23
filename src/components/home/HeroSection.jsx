@@ -1,20 +1,28 @@
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-r from-orange-500 to-red-500">
-      <div className="mx-auto max-w-7xl px-6 py-32">
-        <div className="max-w-2xl">
-          <h1 className="text-6xl font-bold text-white leading-tight">
-            Order Your Favorite Food Anytime
+    <section className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500">
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="max-w-3xl">
+          <span className="rounded-full bg-white/20 px-4 py-2 text-white">
+            Fast Delivery • Fresh Food
+          </span>
+
+          <h1 className="mt-6 text-5xl font-extrabold leading-tight text-white md:text-7xl">
+            Order Food
+            <br />
+            Anytime Anywhere
           </h1>
 
-          <p className="mt-6 text-xl text-orange-100">
-            Fresh meals from the best restaurants delivered
-            quickly to your doorstep.
+          <p className="mt-6 text-lg text-orange-100 md:text-xl">
+            Discover the best restaurants near you and get
+            delicious meals delivered straight to your door.
           </p>
 
-          <button className="mt-8 rounded-lg bg-white px-6 py-3 font-semibold text-orange-500 shadow-lg transition hover:scale-105">
-            Explore Restaurants
-          </button>
+          <div className="mt-10">
+            <button className="rounded-xl bg-white px-8 py-4 text-lg font-semibold text-orange-600 shadow-lg transition hover:scale-105">
+              Explore Restaurants
+            </button>
+          </div>
         </div>
       </div>
     </section>
