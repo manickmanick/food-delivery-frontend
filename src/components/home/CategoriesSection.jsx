@@ -1,3 +1,6 @@
+import Card from "../ui/Card";
+import SectionTitle from "../ui/SectionTitle";
+
 const categories = [
   "🍕 Pizza",
   "🍔 Burger",
@@ -11,18 +14,21 @@ export default function CategoriesSection() {
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-12 text-center text-4xl font-bold">
-          Popular Categories
-        </h2>
+        <SectionTitle
+          title="Popular Categories"
+          subtitle="Choose your favorite food category"
+        />
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {categories.map((category) => (
-            <div
+            <Card
               key={category}
-              className="rounded-2xl border bg-white p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-xl"
+              className="cursor-pointer p-8 text-center hover:-translate-y-2"
             >
-              <p className="text-lg font-semibold">{category}</p>
-            </div>
+              <p className="text-lg font-semibold">
+                {category}
+              </p>
+            </Card>
           ))}
         </div>
       </div>

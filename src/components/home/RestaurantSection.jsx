@@ -1,3 +1,7 @@
+import Button from "../ui/Button";
+import Card from "../ui/Card";
+import SectionTitle from "../ui/SectionTitle";
+
 const restaurants = [
   {
     id: 1,
@@ -20,28 +24,33 @@ export default function RestaurantSection() {
   return (
     <section className="bg-slate-50 py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-12 text-center text-4xl font-bold">
-          Popular Restaurants
-        </h2>
+        <SectionTitle
+          title="Popular Restaurants"
+          subtitle="Top rated restaurants near you"
+        />
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {restaurants.map((restaurant) => (
-            <div
+            <Card
               key={restaurant.id}
-              className="overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-2 hover:shadow-xl"
+              className="overflow-hidden"
             >
-              <div className="h-56 bg-gradient-to-r from-orange-300 to-red-300"></div>
+              <div className="h-56 bg-gradient-to-r from-orange-300 to-red-300" />
 
               <div className="p-6">
-                <h3 className="text-2xl font-bold">{restaurant.name}</h3>
+                <h3 className="text-2xl font-bold">
+                  {restaurant.name}
+                </h3>
 
-                <p className="mt-2 text-slate-500">{restaurant.cuisine}</p>
+                <p className="mt-2 text-slate-500">
+                  {restaurant.cuisine}
+                </p>
 
-                <button className="mt-6 rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-orange-600">
+                <Button className="mt-6">
                   View Menu
-                </button>
+                </Button>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
