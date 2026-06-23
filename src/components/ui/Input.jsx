@@ -3,6 +3,7 @@ export default function Input({
   placeholder,
   value,
   onChange,
+  required,
 }) {
   return (
     <input
@@ -20,6 +21,7 @@ export default function Input({
         outline-none
         focus:border-orange-500
       "
+      required={required ? required : false}
     />
   );
 }

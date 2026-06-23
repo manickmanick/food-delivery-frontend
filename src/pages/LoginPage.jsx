@@ -7,6 +7,7 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
 import useAuth from "../hooks/useAuth";
+import { loginUser } from "../api/authApi";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -14,13 +15,31 @@ export default function LoginPage() {
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
- console.log("Login clicked", email);
-  const handleSubmit = (e) => {
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    try {
+      const response = await loginUser({
+        email,
+        password,
+      });
 
-    login(email);
+      const { accessToken, user } = response.data.data;
 
-    navigate("/");
+      localStorage.setItem("token", accessToken);
+
+      localStorage.setItem("user", JSON.stringify(user));
+
+      login(user);
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      setError(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -34,7 +53,21 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required={true}
             />
+
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required={true}
+            />
+            {error && (
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
 
             <Button type="submit" className="w-full">
               Login
