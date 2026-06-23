@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
@@ -72,6 +72,15 @@ export default function LoginPage() {
             <Button type="submit" className="w-full">
               Login
             </Button>
+            <p className="text-center text-sm text-slate-600">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="font-semibold text-orange-500 hover:text-orange-600"
+              >
+                Sign Up
+              </Link>
+            </p>
           </form>
         </div>
       </section>
