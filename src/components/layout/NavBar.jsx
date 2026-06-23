@@ -1,7 +1,10 @@
 import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
+import useCart from "../../hooks/useCart";
 
 export default function Navbar() {
+  const { cartItems } = useCart();
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
@@ -37,6 +40,9 @@ export default function Navbar() {
           >
             <ShoppingCart size={18} />
             Cart
+            <span className="rounded-full bg-orange-500 px-2 py-1 text-xs text-white">
+              {cartCount}
+            </span>
           </Link>
         </nav>
       </div>
