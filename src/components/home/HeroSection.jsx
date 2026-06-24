@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function HeroSection() {
+  const navigate = useNavigate();
   return (
     <section className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500">
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
@@ -14,12 +17,15 @@ export default function HeroSection() {
           </h1>
 
           <p className="mt-6 text-lg text-orange-100 md:text-xl">
-            Discover the best restaurants near you and get
-            delicious meals delivered straight to your door.
+            Discover the best restaurants near you and get delicious meals
+            delivered straight to your door.
           </p>
 
           <div className="mt-10">
-            <button className="rounded-xl bg-white px-8 py-4 text-lg font-semibold text-orange-600 shadow-lg transition hover:scale-105">
+            <button
+              onClick={() => navigate("/restaurants")}
+              className="rounded-xl bg-white px-8 py-4 text-lg font-semibold text-orange-600 shadow-lg transition hover:scale-105"
+            >
               Explore Restaurants
             </button>
           </div>

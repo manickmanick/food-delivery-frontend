@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { ShoppingCart, Menu, X } from "lucide-react";
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,55 +17,97 @@ export default function Navbar() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const navLinkClass = ({ isActive }) =>
+    isActive
+      ? "border-b-2 border-orange-500 pb-1 font-semibold text-orange-500 transition"
+      : "font-medium text-slate-700 transition hover:text-orange-500";
+
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+        {/* Logo */}
+
         <Link to="/" className="text-3xl font-extrabold text-orange-500">
           Foodie
         </Link>
 
-        {/* Desktop */}
+        {/* Desktop Navigation */}
 
         <nav className="hidden xl:flex items-center gap-8">
-          <Link to="/">Home</Link>
+          <NavLink to="/" end className={navLinkClass}>
+            Home
+          </NavLink>
 
-          <Link to="/restaurants">Restaurants</Link>
+          <NavLink to="/restaurants" end className={navLinkClass}>
+            Restaurants
+          </NavLink>
 
-          {user && <Link to="/orders">Orders</Link>}
+          {user?.role === "RESTAURANT_OWNER" && (
+            <NavLink to="/owner/orders" end className={navLinkClass}>
+              Manage Orders
+            </NavLink>
+          )}
 
-          {user && <Link to="/addresses">Addresses</Link>}
+          {user &&
+            (user.role === "ADMIN" || user.role === "RESTAURANT_OWNER") && (
+              <NavLink to="/restaurants/create" end className={navLinkClass}>
+                Add Restaurant
+              </NavLink>
+            )}
 
-          <Link to="/cart" className="flex items-center gap-2">
+          {user?.role === "RESTAURANT_OWNER" && (
+            <NavLink to="/menu/create" end className={navLinkClass}>
+              Add Menu
+            </NavLink>
+          )}
+
+          {user && (
+            <NavLink to="/orders" end className={navLinkClass}>
+              Orders
+            </NavLink>
+          )}
+
+          {user && (
+            <NavLink to="/addresses" end className={navLinkClass}>
+              Addresses
+            </NavLink>
+          )}
+
+          <NavLink
+            to="/cart"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "flex items-center gap-2 border-b-2 border-orange-500 pb-1 font-semibold text-orange-500"
+                : "flex items-center gap-2 font-medium text-slate-700 hover:text-orange-500"
+            }
+          >
             <ShoppingCart size={18} />
             Cart
             <span className="rounded-full bg-orange-500 px-2 py-1 text-xs text-white">
               {cartCount}
             </span>
-          </Link>
-
-          {user &&
-            (user.role === "ADMIN" || user.role === "RESTAURANT_OWNER") && (
-              <Link to="/restaurants/create">Add Restaurant</Link>
-            )}
-
-          {user?.role === "RESTAURANT_OWNER" && (
-            <Link to="/menu/create">Add Menu</Link>
-          )}
-
-          {user?.role === "RESTAURANT_OWNER" && (
-            <Link to="/owner/orders" className="">
-              Manage Orders
-            </Link>
-          )}
+          </NavLink>
 
           {user ? (
-            <button onClick={() => dispatch(logoutSuccess())}>Logout</button>
+            <button
+              onClick={() => dispatch(logoutSuccess())}
+              className="font-medium text-slate-700 hover:text-orange-500"
+            >
+              Logout
+            </button>
           ) : (
-            <Link to="/login">Login</Link>
+            <NavLink to="/login" className={navLinkClass} end>
+              Login
+            </NavLink>
           )}
         </nav>
 
-        {/* Mobile Button */}
+        {/* Mobile Menu Button */}
 
         <button
           className="xl:hidden"
@@ -80,92 +122,138 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="border-t bg-white xl:hidden">
           <div className="flex flex-col p-4">
-            <Link to="/" className="py-3" onClick={() => setMobileOpen(false)}>
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `${navLinkClass({
+                  isActive,
+                })} py-3`
+              }
+              onClick={closeMobileMenu}
+            >
               Home
-            </Link>
+            </NavLink>
 
-            <Link
+            <NavLink
               to="/restaurants"
-              className="py-3"
-              onClick={() => setMobileOpen(false)}
+              end
+              className={({ isActive }) =>
+                `${navLinkClass({
+                  isActive,
+                })} py-3`
+              }
+              onClick={closeMobileMenu}
             >
               Restaurants
-            </Link>
-
-            {user && (
-              <Link
-                to="/orders"
-                className="py-3"
-                onClick={() => setMobileOpen(false)}
-              >
-                Orders
-              </Link>
-            )}
+            </NavLink>
 
             {user?.role === "RESTAURANT_OWNER" && (
-              <Link to="/owner/orders" className="py-3">
-                Manage Orders
-              </Link>
-            )}
-
-            {user && (
-              <Link
-                to="/addresses"
-                className="py-3"
-                onClick={() => setMobileOpen(false)}
+              <NavLink end
+                to="/owner/orders"
+                className={({ isActive }) =>
+                  `${navLinkClass({
+                    isActive,
+                  })} py-3`
+                }
+                onClick={closeMobileMenu}
               >
-                Addresses
-              </Link>
+                Manage Orders
+              </NavLink>
             )}
-
-            <Link
-              to="/cart"
-              className="py-3"
-              onClick={() => setMobileOpen(false)}
-            >
-              Cart ({cartCount})
-            </Link>
 
             {user &&
               (user.role === "ADMIN" || user.role === "RESTAURANT_OWNER") && (
-                <Link
+                <NavLink end
                   to="/restaurants/create"
-                  className="py-3"
-                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `${navLinkClass({
+                      isActive,
+                    })} py-3`
+                  }
+                  onClick={closeMobileMenu}
                 >
                   Add Restaurant
-                </Link>
+                </NavLink>
               )}
 
             {user?.role === "RESTAURANT_OWNER" && (
-              <Link
+              <NavLink end
                 to="/menu/create"
-                className="py-3"
-                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) =>
+                  `${navLinkClass({
+                    isActive,
+                  })} py-3`
+                }
+                onClick={closeMobileMenu}
               >
                 Add Menu
-              </Link>
+              </NavLink>
             )}
+
+            {user && (
+              <NavLink end
+                to="/orders"
+                className={({ isActive }) =>
+                  `${navLinkClass({
+                    isActive,
+                  })} py-3`
+                }
+                onClick={closeMobileMenu}
+              >
+                Orders
+              </NavLink>
+            )}
+
+            {user && (
+              <NavLink end
+                to="/addresses"
+                className={({ isActive }) =>
+                  `${navLinkClass({
+                    isActive,
+                  })} py-3`
+                }
+                onClick={closeMobileMenu}
+              >
+                Addresses
+              </NavLink>
+            )}
+
+            <NavLink end
+              to="/cart"
+              className={({ isActive }) =>
+                `${navLinkClass({
+                  isActive,
+                })} py-3`
+              }
+              onClick={closeMobileMenu}
+            >
+              Cart ({cartCount})
+            </NavLink>
 
             {user ? (
               <button
-                className="py-3 text-left"
+                className="py-3 text-left font-medium text-slate-700 hover:text-orange-500"
                 onClick={() => {
                   dispatch(logoutSuccess());
 
-                  setMobileOpen(false);
+                  closeMobileMenu();
                 }}
               >
                 Logout
               </button>
             ) : (
-              <Link
+              <NavLink end
                 to="/login"
-                className="py-3"
-                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) =>
+                  `${navLinkClass({
+                    isActive,
+                  })} py-3`
+                }
+                onClick={closeMobileMenu}
               >
                 Login
-              </Link>
+              </NavLink>
             )}
           </div>
         </div>
