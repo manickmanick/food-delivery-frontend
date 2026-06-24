@@ -61,6 +61,15 @@ export default function Navbar() {
             </Link>
           )}
 
+          {user && (
+            <Link
+              to="/orders"
+              className="font-medium text-slate-700 hover:text-orange-500"
+            >
+              Orders
+            </Link>
+          )}
+
           {user ? (
             <button
               onClick={() => dispatch(logoutSuccess())}
