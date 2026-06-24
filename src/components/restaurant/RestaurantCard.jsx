@@ -7,14 +7,10 @@ export default function RestaurantCard({ restaurant }) {
     <Link to={`/restaurants/${restaurant.id}`}>
       <Card className="overflow-hidden transition hover:scale-[1.02]">
         <img
-          src={
-            restaurant.imageUrl ||
-            "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
-          }
+          src={restaurant.imageUrl}
           alt={restaurant.name}
           className="h-52 w-full object-cover"
         />
-
         <div className="p-5">
           <h3 className="text-2xl font-bold">{restaurant.name}</h3>
 

@@ -1,36 +1,56 @@
-import Card from "../ui/Card";
-import SectionTitle from "../ui/SectionTitle";
+import { useEffect, useState } from "react";
 
-const categories = [
-  "🍕 Pizza",
-  "🍔 Burger",
-  "🍛 Biryani",
-  "🥘 South Indian",
-  "🥡 Chinese",
-  "🍰 Desserts",
-];
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+
+import { getCategories } from "../../api/categoryApi";
 
 export default function CategoriesSection() {
-  return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionTitle
-          title="Popular Categories"
-          subtitle="Choose your favorite food category"
-        />
+  const [categories, setCategories] = useState([]);
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const response = await getCategories();
+
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <section className="py-12">
+      <div className="mx-auto max-w-7xl px-6">
+        <h2 className="mb-8 text-3xl font-bold">Categories</h2>
+
+        <Swiper
+          spaceBetween={16}
+          slidesPerView={2}
+          breakpoints={{
+            640: {
+              slidesPerView: 3,
+            },
+            768: {
+              slidesPerView: 4,
+            },
+            1024: {
+              slidesPerView: 6,
+            },
+          }}
+        >
           {categories.map((category) => (
-            <Card
-              key={category}
-              className="cursor-pointer p-8 text-center hover:-translate-y-2"
-            >
-              <p className="text-lg font-semibold">
-                {category}
-              </p>
-            </Card>
+            <SwiperSlide key={category.id}>
+              <div className="cursor-pointer rounded-xl bg-white p-6 text-center shadow hover:shadow-lg">
+                {category.name}
+              </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
     </section>
   );
