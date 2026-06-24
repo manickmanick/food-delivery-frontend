@@ -13,6 +13,7 @@ import CreateMenuItemPage from "../pages/CreateMenuItemPage";
 import AddressesPage from "../pages/AddressesPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrdersPage from "../pages/OrdersPage";
+import OwnerOrdersPage from "../pages/OwnerOrdersPage";
 
 export default function AppRoutes() {
   return (
@@ -87,6 +88,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <OrdersPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/owner/orders"
+        element={
+          <ProtectedRoute>
+            <OwnerOrdersPage />
           </ProtectedRoute>
         }
       />
