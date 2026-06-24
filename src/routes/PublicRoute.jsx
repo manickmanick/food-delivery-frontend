@@ -1,15 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-import useAuth from "../hooks/useAuth";
-
-export default function PublicRoute({
-  children,
-}) {
-  const {
-    user,
-    loading,
-  } = useAuth();
-
+export default function PublicRoute({ children }) {
+  const user = useSelector((state) => state.auth.user);
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -19,12 +11,7 @@ export default function PublicRoute({
   }
 
   if (user) {
-    return (
-      <Navigate
-        to="/"
-        replace
-      />
-    );
+    return <Navigate to="/" replace />;
   }
 
   return children;

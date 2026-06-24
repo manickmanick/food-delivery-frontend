@@ -1,43 +1,15 @@
 import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import useAuth from "../hooks/useAuth";
-
-export default function AdminRoute({
-  children,
-}) {
-  const {
-    user,
-    loading,
-  } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+export default function AdminRoute({ children }) {
+  const user = useSelector((state) => state.auth.user);
 
   if (!user) {
-    return (
-      <Navigate
-        to="/login"
-        replace
-      />
-    );
+    return <Navigate to="/login" replace />;
   }
 
-  if (
-    user.role !== "ADMIN" &&
-    user.role !==
-      "RESTAURANT_OWNER"
-  ) {
-    return (
-      <Navigate
-        to="/"
-        replace
-      />
-    );
+  if (user.role !== "ADMIN" && user.role !== "RESTAURANT_OWNER") {
+    return <Navigate to="/" replace />;
   }
 
   return children;

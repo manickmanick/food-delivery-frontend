@@ -1,10 +1,41 @@
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 
-import useCart from "../../hooks/useCart";
+import { addToCart } from "../../api/cartApi";
+import { useDispatch } from "react-redux";
+
+import { loadCart } from "../../utils/loadCart";
 
 export default function MenuItemCard({ item }) {
-  const { addToCart } = useCart();
+  const dispatch = useDispatch();
+  const handleAddToCart =
+  async () => {
+
+    try {
+
+      const response =
+        await addToCart(
+          item.id,
+          1
+        );
+
+      await loadCart(
+        dispatch
+      );
+
+      alert(
+        response.data.message
+      );
+
+    } catch (error) {
+
+      alert(
+        error.response?.data
+          ?.message
+      );
+
+    }
+  };
 
   return (
     <Card className="overflow-hidden">
@@ -33,7 +64,7 @@ export default function MenuItemCard({ item }) {
             )}
           </div>
 
-          <Button className="mt-5 w-fit" onClick={() => addToCart(item)}>
+          <Button className="mt-5 w-fit" onClick={handleAddToCart}>
             Add To Cart
           </Button>
         </div>

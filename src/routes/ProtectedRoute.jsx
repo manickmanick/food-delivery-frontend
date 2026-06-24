@@ -1,17 +1,8 @@
 import { Navigate } from "react-router-dom";
-
-import useAuth from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 export default function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  const user = useSelector((state) => state.auth.user);
 
   if (!user) {
     return <Navigate to="/login" replace />;

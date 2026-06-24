@@ -5,18 +5,17 @@ import MainLayout from "../layouts/MainLayout";
 
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-
-import useAuth from "../hooks/useAuth";
 import { loginUser } from "../api/authApi";
+import { useDispatch } from "react-redux";
+
+import { loginSuccess } from "../redux/slices/authSlice";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-
-  const { login } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +32,7 @@ export default function LoginPage() {
 
       localStorage.setItem("user", JSON.stringify(user));
 
-      login(user);
+      dispatch(loginSuccess(user));
 
       navigate("/");
     } catch (error) {

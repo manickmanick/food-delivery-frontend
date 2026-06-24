@@ -1,22 +1,16 @@
+import { useEffect, useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
-import useCart from "../../hooks/useCart";
-import useAuth from "../../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../redux/slices/authSlice";
 
 export default function Navbar() {
-  console.log("Navbar rendered");
+  const dispatch = useDispatch();
 
-  const auth = useAuth();
+  const user = useSelector((state) => state.auth.user);
 
-  console.log("Navbar auth:", auth);
+  const cartCount = useSelector((state) => state.cart.count);
 
-  const { user, logout } = auth;
-
-  console.log("Navbar User:", user);
-
-  const { cartItems } = useCart();
-
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
@@ -60,7 +54,7 @@ export default function Navbar() {
 
           {user ? (
             <button
-              onClick={logout}
+              onClick={() => dispatch(logoutSuccess())}
               className="font-medium text-slate-700 hover:text-orange-500"
             >
               Logout
