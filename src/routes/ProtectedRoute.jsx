@@ -1,11 +1,20 @@
-import useAuth from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
+import useAuth from "../hooks/useAuth";
+
 export default function ProtectedRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   return children;
