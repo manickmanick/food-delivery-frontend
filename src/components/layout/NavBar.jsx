@@ -52,6 +52,15 @@ export default function Navbar() {
             </Link>
           )}
 
+          {user && (
+            <Link
+              to="/addresses"
+              className="font-medium text-slate-700 hover:text-orange-500"
+            >
+              Addresses
+            </Link>
+          )}
+
           {user ? (
             <button
               onClick={() => dispatch(logoutSuccess())}

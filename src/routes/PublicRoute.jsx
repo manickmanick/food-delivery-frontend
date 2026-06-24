@@ -1,14 +1,9 @@
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function PublicRoute({ children }) {
   const user = useSelector((state) => state.auth.user);
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  console.log("user -> ", user);
 
   if (user) {
     return <Navigate to="/" replace />;

@@ -10,6 +10,7 @@ import PublicRoute from "./PublicRoute";
 import AdminRoute from "./AdminRoute";
 import CreateRestaurantPage from "../pages/CreateRestaurantPage";
 import CreateMenuItemPage from "../pages/CreateMenuItemPage";
+import AddressesPage from "../pages/AddressesPage";
 
 export default function AppRoutes() {
   return (
@@ -60,6 +61,14 @@ export default function AppRoutes() {
           <AdminRoute>
             <CreateMenuItemPage />
           </AdminRoute>
+        }
+      />
+      <Route
+        path="/addresses"
+        element={
+          <ProtectedRoute>
+            <AddressesPage />
+          </ProtectedRoute>
         }
       />
     </Routes>
