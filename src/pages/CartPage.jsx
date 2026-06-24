@@ -13,6 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import { loadCart } from "../utils/loadCart";
+import { Link } from "react-router-dom";
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -96,9 +97,14 @@ export default function CartPage() {
               Total: ₹{cart?.totalAmount || 0}
             </h2>
 
-            <Button className="mt-4" onClick={handleClearCart}>
-              Clear Cart
-            </Button>
+            <div className="mt-4 flex gap-3">
+              <Button onClick={handleClearCart}>Clear Cart</Button>
+              {cart?.items?.length > 0 && (
+                <Link to="/checkout">
+                  <Button>Checkout</Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </section>
