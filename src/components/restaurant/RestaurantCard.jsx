@@ -5,13 +5,22 @@ import { Link } from "react-router-dom";
 export default function RestaurantCard({ restaurant }) {
   return (
     <Link to={`/restaurants/${restaurant.id}`}>
-      <Card className="overflow-hidden">
-        <div className="h-52 bg-gradient-to-r from-orange-300 to-red-300" />
+      <Card className="overflow-hidden transition hover:scale-[1.02]">
+        <img
+          src={
+            restaurant.imageUrl ||
+            "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+          }
+          alt={restaurant.name}
+          className="h-52 w-full object-cover"
+        />
 
         <div className="p-5">
           <h3 className="text-2xl font-bold">{restaurant.name}</h3>
 
-          <p className="mt-2 text-gray-500">{restaurant.cuisine}</p>
+          <p className="mt-2 text-gray-500">{restaurant.description}</p>
+
+          <p className="mt-2 text-sm text-slate-600">📍 {restaurant.address}</p>
 
           <p className="mt-2 font-medium">⭐ {restaurant.rating}</p>
 

@@ -1,7 +1,7 @@
 import api from "./axios";
 
 export const getRestaurants = () => {
-  return api.get("/api/restaurants");
+  return api.get("/restaurants");
 };
 
 export const getRestaurant = (id) => {
