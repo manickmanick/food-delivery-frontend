@@ -8,6 +8,8 @@ import RegisterPage from "../pages/RegisterPage";
 import CartPage from "../pages/CartPage";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import AdminRoute from "./AdminRoute";
+import CreateRestaurantPage from "../pages/CreateRestaurantPage";
 
 export default function AppRoutes() {
   return (
@@ -42,6 +44,14 @@ export default function AppRoutes() {
           <ProtectedRoute>
             <CartPage />
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/restaurants/create"
+        element={
+          <AdminRoute>
+            <CreateRestaurantPage />
+          </AdminRoute>
         }
       />
     </Routes>
