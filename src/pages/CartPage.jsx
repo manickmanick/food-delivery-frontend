@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 
 import Button from "../components/ui/Button";
-
 import {
   getCart,
   updateCartItem,

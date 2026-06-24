@@ -11,9 +11,11 @@ import AdminRoute from "./AdminRoute";
 import CreateRestaurantPage from "../pages/CreateRestaurantPage";
 import CreateMenuItemPage from "../pages/CreateMenuItemPage";
 import AddressesPage from "../pages/AddressesPage";
-import CheckoutPage from "../pages/CheckoutPage";
 import OrdersPage from "../pages/OrdersPage";
 import OwnerOrdersPage from "../pages/OwnerOrdersPage";
+import CheckoutPage from "../pages/CheckoutPage";
+import PaymentPage from "../pages/PaymentPage";
+import OrderSuccessPage from "../pages/OrderSuccessPage";
 
 export default function AppRoutes() {
   return (
@@ -96,6 +98,23 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <OwnerOrdersPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <ProtectedRoute>
+            <PaymentPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/order-success"
+        element={
+          <ProtectedRoute>
+            <OrderSuccessPage />
           </ProtectedRoute>
         }
       />

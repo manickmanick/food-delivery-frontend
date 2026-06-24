@@ -1,94 +1,147 @@
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
 import Button from "../components/ui/Button";
 
-import { getCart } from "../api/cartApi";
-
 import { getAddresses } from "../api/addressApi";
-
-import { placeOrder } from "../api/orderApi";
+import { getCart } from "../api/cartApi";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
 
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+
   const [cart, setCart] = useState(null);
 
-  const [addresses, setAddresses] = useState([]);
-
-  const [selectedAddress, setSelectedAddress] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
-    const [cartResponse, addressResponse] = await Promise.all([
-      getCart(),
-      getAddresses(),
-    ]);
+    try {
+      const [addressResponse, cartResponse] = await Promise.all([
+        getAddresses(),
+        getCart(),
+      ]);
 
-    setCart(cartResponse.data.data);
+      setAddresses(addressResponse.data.data);
 
-    setAddresses(addressResponse.data.data);
-
-    const defaultAddress = addressResponse.data.data.find((a) => a.isDefault);
-
-    if (defaultAddress) {
-      setSelectedAddress(defaultAddress.id);
+      setCart(cartResponse.data.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handlePlaceOrder = async () => {
+  const handleContinue = () => {
     if (!selectedAddress) {
-      alert("Select address");
-
+      alert("Please select address");
       return;
     }
 
-    await placeOrder(Number(selectedAddress));
-
-    navigate("/orders");
+    navigate("/payment", {
+      state: {
+        addressId: selectedAddress,
+        amount: cart.totalAmount,
+      },
+    });
   };
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          Loading...
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
-      <section className="min-h-screen bg-slate-50 py-16">
-        <div className="mx-auto max-w-5xl px-6">
-          <h1 className="mb-8 text-4xl font-bold">Checkout</h1>
+      <section className="bg-slate-50 py-12">
+        <div className="mx-auto max-w-6xl px-6">
+          <h1 className="mb-10 text-4xl font-bold">Checkout</h1>
 
-          <div className="rounded-xl bg-white p-6 shadow">
-            <h2 className="mb-5 text-2xl font-semibold">Select Address</h2>
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Address Section */}
 
-            <div className="space-y-3">
-              {addresses.map((address) => (
-                <label key={address.id} className="flex gap-3">
-                  <input
-                    type="radio"
-                    value={address.id}
-                    checked={Number(selectedAddress) === address.id}
-                    onChange={(e) => setSelectedAddress(e.target.value)}
-                  />
+            <div className="rounded-2xl bg-white p-6 shadow">
+              <h2 className="mb-6 text-2xl font-bold">Delivery Address</h2>
 
-                  <div>
-                    <p className="font-medium">{address.label}</p>
+              <div className="space-y-4">
+                {addresses.map((address) => (
+                  <div
+                    key={address.id}
+                    onClick={() => setSelectedAddress(address.id)}
+                    className={`cursor-pointer rounded-xl border p-4 transition ${
+                      selectedAddress === address.id
+                        ? "border-orange-500 bg-orange-50"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <h3 className="font-semibold">{address.label}</h3>
 
                     <p>{address.addressLine1}</p>
+
+                    {address.addressLine2 && <p>{address.addressLine2}</p>}
+
+                    <p>
+                      {address.city}, {address.state}
+                    </p>
+
+                    <p>{address.pincode}</p>
+
+                    {address.landmark && <p>Landmark: {address.landmark}</p>}
                   </div>
-                </label>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="mt-6 rounded-xl bg-white p-6 shadow">
-            <h2 className="text-2xl font-bold">Total: ₹{cart?.totalAmount}</h2>
+            {/* Order Summary */}
 
-            <Button className="mt-5" onClick={handlePlaceOrder}>
-              Place Order
-            </Button>
+            <div className="rounded-2xl bg-white p-6 shadow">
+              <h2 className="mb-6 text-2xl font-bold">Order Summary</h2>
+
+              <div className="space-y-4">
+                {cart?.items?.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between border-b pb-3"
+                  >
+                    <div>
+                      <p className="font-medium">{item.menuItem.name}</p>
+
+                      <p className="text-sm text-gray-500">
+                        Qty: {item.quantity}
+                      </p>
+                    </div>
+
+                    <p className="font-semibold">
+                      ₹{Number(item.menuItem.price) * item.quantity}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 border-t pt-6">
+                <div className="flex justify-between text-xl font-bold">
+                  <span>Total</span>
+
+                  <span>₹{cart?.totalAmount || 0}</span>
+                </div>
+
+                <Button className="mt-6 w-full" onClick={handleContinue}>
+                  Continue To Payment
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
