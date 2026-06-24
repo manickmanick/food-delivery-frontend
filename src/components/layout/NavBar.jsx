@@ -49,6 +49,15 @@ export default function Navbar() {
               </Link>
             )}
 
+          {user?.role === "RESTAURANT_OWNER" && (
+            <Link
+              to="/menu/create"
+              className="font-medium text-slate-700 hover:text-orange-500"
+            >
+              Add Menu Item
+            </Link>
+          )}
+
           {user ? (
             <button
               onClick={logout}

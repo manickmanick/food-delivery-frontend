@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-
 import HomePage from "../pages/HomePage";
 import RestaurantsPage from "../pages/RestaurantsPage";
 import RestaurantDetailsPage from "../pages/RestaurantDetailsPage";
@@ -10,6 +9,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import AdminRoute from "./AdminRoute";
 import CreateRestaurantPage from "../pages/CreateRestaurantPage";
+import CreateMenuItemPage from "../pages/CreateMenuItemPage";
 
 export default function AppRoutes() {
   return (
@@ -51,6 +51,14 @@ export default function AppRoutes() {
         element={
           <AdminRoute>
             <CreateRestaurantPage />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/menu/create"
+        element={
+          <AdminRoute>
+            <CreateMenuItemPage />
           </AdminRoute>
         }
       />
