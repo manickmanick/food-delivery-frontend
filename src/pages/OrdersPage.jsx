@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import MainLayout from "../layouts/MainLayout";
-
+import socket from "../socket";
 import { getMyOrders } from "../api/orderApi";
 
 const statusColor = {
@@ -22,6 +22,16 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
 
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    socket.on("order-status-updated", () => {
+      loadOrders();
+    });
+
+    return () => {
+      socket.off("order-status-updated");
+    };
+  }, []);
 
   useEffect(() => {
     loadOrders();
