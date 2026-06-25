@@ -2,38 +2,23 @@ import Card from "../ui/Card";
 import Button from "../ui/Button";
 
 import { addToCart } from "../../api/cartApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { loadCart } from "../../utils/loadCart";
 
 export default function MenuItemCard({ item }) {
   const dispatch = useDispatch();
-  const handleAddToCart =
-  async () => {
+  const user = useSelector((state) => state.auth.user);
 
+  const handleAddToCart = async () => {
     try {
+      const response = await addToCart(item.id, 1);
 
-      const response =
-        await addToCart(
-          item.id,
-          1
-        );
+      await loadCart(dispatch);
 
-      await loadCart(
-        dispatch
-      );
-
-      alert(
-        response.data.message
-      );
-
+     
     } catch (error) {
-
-      alert(
-        error.response?.data
-          ?.message
-      );
-
+      alert(error.response?.data?.message);
     }
   };
 
@@ -64,7 +49,11 @@ export default function MenuItemCard({ item }) {
             )}
           </div>
 
-          <Button className="mt-5 w-fit" onClick={handleAddToCart}>
+          <Button
+            className="mt-5 w-fit"
+            onClick={handleAddToCart}
+            disabled={!user}
+          >
             Add To Cart
           </Button>
         </div>

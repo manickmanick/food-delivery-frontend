@@ -3,10 +3,12 @@ export default function Button({
   onClick,
   type = "button",
   className = "",
+  disabled = false,
 }) {
   return (
     <button
       type={type}
+      disabled={disabled}
       onClick={onClick}
       className={`
         rounded-xl
@@ -16,7 +18,11 @@ export default function Button({
         font-semibold
         text-white
         transition
-        hover:bg-orange-600
+        enabled:hover:bg-orange-600
+        disabled:bg-gray-400
+        disabled:text-gray-200
+        disabled:cursor-not-allowed
+        
         ${className}
       `}
     >

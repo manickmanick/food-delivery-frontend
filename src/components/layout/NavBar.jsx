@@ -77,21 +77,23 @@ export default function Navbar() {
             </NavLink>
           )}
 
-          <NavLink
-            to="/cart"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "flex items-center gap-2 border-b-2 border-orange-500 pb-1 font-semibold text-orange-500"
-                : "flex items-center gap-2 font-medium text-slate-700 hover:text-orange-500"
-            }
-          >
-            <ShoppingCart size={18} />
-            Cart
-            <span className="rounded-full bg-orange-500 px-2 py-1 text-xs text-white">
-              {cartCount}
-            </span>
-          </NavLink>
+          {user && (
+            <NavLink
+              to="/cart"
+              end
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center gap-2 border-b-2 border-orange-500 pb-1 font-semibold text-orange-500"
+                  : "flex items-center gap-2 font-medium text-slate-700 hover:text-orange-500"
+              }
+            >
+              <ShoppingCart size={18} />
+              Cart
+              <span className="rounded-full bg-orange-500 px-2 py-1 text-xs text-white">
+                {cartCount}
+              </span>
+            </NavLink>
+          )}
 
           {user ? (
             <button
@@ -149,7 +151,8 @@ export default function Navbar() {
             </NavLink>
 
             {user?.role === "RESTAURANT_OWNER" && (
-              <NavLink end
+              <NavLink
+                end
                 to="/owner/orders"
                 className={({ isActive }) =>
                   `${navLinkClass({
@@ -164,7 +167,8 @@ export default function Navbar() {
 
             {user &&
               (user.role === "ADMIN" || user.role === "RESTAURANT_OWNER") && (
-                <NavLink end
+                <NavLink
+                  end
                   to="/restaurants/create"
                   className={({ isActive }) =>
                     `${navLinkClass({
@@ -178,7 +182,8 @@ export default function Navbar() {
               )}
 
             {user?.role === "RESTAURANT_OWNER" && (
-              <NavLink end
+              <NavLink
+                end
                 to="/menu/create"
                 className={({ isActive }) =>
                   `${navLinkClass({
@@ -192,7 +197,8 @@ export default function Navbar() {
             )}
 
             {user && (
-              <NavLink end
+              <NavLink
+                end
                 to="/orders"
                 className={({ isActive }) =>
                   `${navLinkClass({
@@ -206,7 +212,8 @@ export default function Navbar() {
             )}
 
             {user && (
-              <NavLink end
+              <NavLink
+                end
                 to="/addresses"
                 className={({ isActive }) =>
                   `${navLinkClass({
@@ -219,17 +226,20 @@ export default function Navbar() {
               </NavLink>
             )}
 
-            <NavLink end
-              to="/cart"
-              className={({ isActive }) =>
-                `${navLinkClass({
-                  isActive,
-                })} py-3`
-              }
-              onClick={closeMobileMenu}
-            >
-              Cart ({cartCount})
-            </NavLink>
+            {user && (
+              <NavLink
+                end
+                to="/cart"
+                className={({ isActive }) =>
+                  `${navLinkClass({
+                    isActive,
+                  })} py-3`
+                }
+                onClick={closeMobileMenu}
+              >
+                Cart ({cartCount})
+              </NavLink>
+            )}
 
             {user ? (
               <button
@@ -243,7 +253,8 @@ export default function Navbar() {
                 Logout
               </button>
             ) : (
-              <NavLink end
+              <NavLink
+                end
                 to="/login"
                 className={({ isActive }) =>
                   `${navLinkClass({
