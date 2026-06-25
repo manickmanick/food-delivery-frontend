@@ -3,7 +3,8 @@ export default function Input({
   placeholder,
   value,
   onChange,
-  required,
+  hasError = false,
+  className = "",
 }) {
   return (
     <input
@@ -11,17 +12,25 @@ export default function Input({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="
+      className={`
         w-full
         rounded-xl
         border
-        border-gray-300
         px-4
         py-3
         outline-none
-        focus:border-orange-500
-      "
-      required={required ? required : false}
+        transition
+        duration-150
+        
+        /* Error and normal border toggle states */
+        ${
+          hasError
+            ? "border-red-400 bg-red-50/20 focus:border-red-500"
+            : "border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10"
+        }
+        
+        ${className}
+      `}
     />
   );
 }
