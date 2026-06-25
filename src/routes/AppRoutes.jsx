@@ -16,6 +16,7 @@ import OwnerOrdersPage from "../pages/OwnerOrdersPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import PaymentPage from "../pages/PaymentPage";
 import OrderSuccessPage from "../pages/OrderSuccessPage";
+import EditAddressPage from "../pages/EditAddressPage";
 
 export default function AppRoutes() {
   return (
@@ -73,6 +74,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <AddressesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/addresses/:id/edit"
+        element={
+          <ProtectedRoute>
+            <EditAddressPage />
           </ProtectedRoute>
         }
       />

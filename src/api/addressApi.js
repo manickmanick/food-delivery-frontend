@@ -1,11 +1,25 @@
 import api from "./axios";
 
-export const getAddresses = () => api.get("/addresses");
+export const getAddresses = () => {
+  return api.get("/addresses");
+};
 
-export const createAddress = (data) => api.post("/addresses", data);
+export const getAddressById = (id) => {
+  return api.get(`/addresses/${id}`);
+};
 
-export const updateAddress = (id, data) => api.put(`/addresses/${id}`, data);
+export const createAddress = (data) => {
+  return api.post("/addresses", data);
+};
 
-export const deleteAddress = (id) => api.delete(`/addresses/${id}`);
+export const updateAddress = (id, data) => {
+  return api.put(`/addresses/${id}`, data);
+};
 
-export const setDefaultAddress = (id) => api.patch(`/addresses/${id}/default`);
+export const deleteAddress = (id) => {
+  return api.delete(`/addresses/${id}`);
+};
+
+export const setDefaultAddress = (id) => {
+  return api.patch(`/addresses/${id}/default`);
+};
